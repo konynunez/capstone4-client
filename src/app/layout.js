@@ -1,6 +1,6 @@
-import "./globals.css"; // Import Tailwind global styles
-import Navbar from "./components/Navbar"; // Import Navbar with dark mode toggle
-import Footer from "./components/Footer"; // Import Footer with navigation links
+import "./globals.css";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 export const metadata = {
   title: "Notebook App",

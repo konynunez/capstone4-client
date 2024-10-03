@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { Expand } from "@theme-toggles/react";
 
@@ -25,7 +24,7 @@ const Navbar = () => {
 
   return (
     <nav className="bg-gray-800 text-white shadow-md p-4 flex justify-between items-center">
-      <h1 className="text-xl font-bold">Panoramix Notebook</h1>
+      <h1 className="text-xl font-bold">iNote</h1>
       <div>
         {/* Dark mode toggle */}
         <Expand toggled={isDarkTheme} toggle={setIsDarkTheme} />
