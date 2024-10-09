@@ -1,10 +1,12 @@
+"use client";
 import React from "react";
+import Main from "../components/Main";
 
 const NotePage = () => {
   return (
-    <div>
-      <h1>Note Page</h1>
-      <p>This is the content of the note page.</p>
+    <div
+    >
+      <Main />
     </div>
   );
 };

@@ -10,7 +10,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <head>{/* Meta tags, favicons, etc. */}</head>
+      <head>
+        {/* Meta tags, favicons, etc. */}
+        <title>{metadata.title}</title>
+        <meta name="description" content={metadata.description} />
+        {/* Add other head elements as needed */}
+      </head>
       <body className="bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100 flex flex-col min-h-screen">
         {/* Navbar with dark mode toggle */}
         <Navbar />
