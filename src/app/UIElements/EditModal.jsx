@@ -1,3 +1,4 @@
+"use client"; 
 import React, { useEffect, useState } from "react";
 import { FaTimes, FaSave } from "react-icons/fa";
 
@@ -6,7 +7,6 @@ const EditModal = ({ show, note, handleClose, editNote }) => {
   const [category, setCategory] = useState(note?.category || "");
   const [description, setDescription] = useState(note?.description || "");
 
-  // Synchronize the modal fields when the note prop changes
   useEffect(() => {
     if (note) {
       setDate(note.date);
@@ -22,11 +22,12 @@ const EditModal = ({ show, note, handleClose, editNote }) => {
       category,
       description,
     };
-    editNote(updatedNote); // Call the editNote function from props
-    handleClose(); // Close the modal after saving
+    console.log("Updating Note:", updatedNote); // Debugging
+    editNote(updatedNote); // Call the edit function
+    handleClose(); // Close the modal
   };
 
-  if (!show) return null;
+  if (!show) return null; // Conditional rendering to prevent rendering when modal is not shown
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
@@ -38,38 +39,46 @@ const EditModal = ({ show, note, handleClose, editNote }) => {
           </button>
         </div>
         <form>
-          <div className="mb-4">
-            <label className="block text-zinc-700">Category</label>
+          <div>
+            <label>Category</label>
             <input
               type="text"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="w-full px-4 py-2 border border-zinc-300 rounded-lg"
+              className="w-full px-4 py-2 border border-zinc-300 rounded"
             />
           </div>
-          <div className="mb-4">
-            <label className="block text-zinc-700">Date</label>
+          <div>
+            <label>Date</label>
             <input
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full px-4 py-2 border border-zinc-300 rounded-lg"
+              className="w-full px-4 py-2 border border-zinc-300 rounded"
             />
           </div>
-          <div className="mb-4">
-            <label className="block text-zinc-700">Description</label>
+          <div>
+            <label>Description</label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={4}
-              className="w-full px-4 py-2 border border-zinc-300 rounded-lg"
+              className="w-full px-4 py-2 border border-zinc-300 rounded"
             />
           </div>
           <div className="flex justify-end space-x-4">
-            <button className="bg-zinc-500 text-white py-2 px-4 rounded" onClick={handleUpdateNote}>
+            <button
+              type="button"
+              className="bg-zinc-500 text-white py-2 px-4 rounded"
+              onClick={handleUpdateNote} // Handle note update
+            >
               <FaSave className="inline mr-2" /> Save Changes
             </button>
-            <button className="bg-zinc-300 text-zinc-700 py-2 px-4 rounded" onClick={handleClose}>
+            <button
+              type="button"
+              className="bg-zinc-300 text-zinc-700 py-2 px-4 rounded"
+              onClick={handleClose}
+            >
               <FaTimes className="inline mr-2" /> Close
             </button>
           </div>

@@ -1,41 +1,32 @@
-
 "use client";
 import React, { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';  // For unique ID generation
+import { v4 as uuidv4 } from 'uuid';  
 
 const ModalForm = ({ show, handleClose, addNote }) => {
   const [formValues, setFormValues] = useState({ date: '', category: '', description: '' });
   const [error, setError] = useState('');
 
-  // Handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
   };
 
-  // Handle form submission
   const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent default form behavior
+    e.preventDefault(); 
 
-    // Check for empty fields
     if (!formValues.date || !formValues.category || !formValues.description) {
       setError('All fields are required!');
       return;
     }
-
-    // Clear any previous errors
     setError('');
 
-    // Add the note using the provided addNote function
     addNote({
-      id: uuidv4(),  // Generate a unique ID for the new note
+      id: uuidv4(),  
       ...formValues,
     });
 
-    handleClose();  // Close the modal after submission
+    handleClose();  
   };
-
-  // Ensure the modal is displayed only when 'show' is true
   if (!show) return null;
 
   return (
@@ -103,7 +94,6 @@ const ModalForm = ({ show, handleClose, addNote }) => {
             />
           </div>
 
-          {/* Buttons */}
           <div className="flex justify-end space-x-3">
             <button
               type="submit"

@@ -2,7 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaHome, FaBook, FaEnvelope } from "react-icons/fa";
+import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaGithub, FaHome, FaBook, FaEnvelope } from "react-icons/fa";
 
 const Footer = () => {
   const logoPath = "/images/panoramix.png";
@@ -13,7 +13,7 @@ const Footer = () => {
         
         {/* Logo Section */}
         <div className="flex title-font font-medium items-center text-gray-900 dark:text-gray-100 mb-4 sm:mb-0">
-          <a href="/">
+          <Link href="/">
             <Image
               width={90}
               height={90}
@@ -22,7 +22,7 @@ const Footer = () => {
               className="cursor-pointer rounded-lg"
               style={{ width: "auto", height: "auto" }}
             />
-          </a>
+          </Link>
         </div>
 
         {/* Links Section */}
@@ -51,6 +51,10 @@ const Footer = () => {
           </a>
           <a href="https://linkedin.com" className="text-blue-700 dark:text-blue-700 hover:text-blue-900">
             <FaLinkedin className="w-5 h-5" />
+          </a>
+          {/* GitHub Link */}
+          <a href="https://github.com" className="text-gray-500 dark:text-gray-500 hover:text-gray-700">
+            <FaGithub className="w-5 h-5" />
           </a>
         </span>
       </div>
