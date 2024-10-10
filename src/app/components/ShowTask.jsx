@@ -1,53 +1,44 @@
 "use client";
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import { FaTrash, FaPen, FaEye } from "react-icons/fa";
 import EditModal from "../UIElements/EditModal";
 import ViewModal from "../UIElements/ViewModal";
 import DeleteModal from "../UIElements/DeleteModal";
 
-const ShowTask = ({ notes, deleteNote, editNote }) => {
-  const [sortOrder, setSortOrder] = useState("date");
-  const [selectedNote, setSelectedNote] = useState(null); // Track the selected note for modals
+const ShowTasks = ({ notes, deleteNote, editNote }) => {
+  const [selectedNote, setSelectedNote] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-
-  const sortedNotesByOrder = useMemo(() => {
-    if (sortOrder === "year") {
-      return [...notes].sort((a, b) => new Date(a.date).getFullYear() - new Date(b.date).getFullYear());
-    } else if (sortOrder === "month") {
-      return [...notes].sort((a, b) => new Date(a.date).getMonth() - new Date(b.date).getMonth());
-    } else {
-      return [...notes].sort((a, b) => new Date(a.date) - new Date(b.date));
-    }
-  }, [notes, sortOrder]);
+  const [sortCriteria, setSortCriteria] = useState("date"); // Default sorting criteria
 
   const handleView = (note) => {
-    setSelectedNote(note); // Set the note to view
-    setShowViewModal(true); // Show the view modal
+    setSelectedNote(note);
+    setShowViewModal(true);
   };
 
   const handleEdit = (note) => {
-    setSelectedNote(note); // Set the note to edit
-    setShowEditModal(true); // Show the edit modal
+    setSelectedNote(note);
+    setShowEditModal(true);
   };
 
   const handleDelete = (note) => {
-    setSelectedNote(note); // Set the note to delete
-    setShowDeleteModal(true); // Show the delete modal
+    setSelectedNote(note);
+    setShowDeleteModal(true);
+  };
+
+  const handleSortChange = (e) => {
+    setSortCriteria(e.target.value);
+    // You can implement sorting logic here if necessary
   };
 
   return (
-    <div className="flex flex-col justify-start h-full">
-      <h2 className="text-3xl font-semibold text-zinc-900 mb-4">
-        ALL NOTES
-      </h2>
-
-      {/* Sort dropdown */}
+    <div className="flex flex-col h-full p-4">
+      <h2 className="text-3xl font-bold mb-4">ALL NOTES</h2>
       <div className="flex justify-end mb-4">
         <select
-          value={sortOrder}
-          onChange={(e) => setSortOrder(e.target.value)}
+          value={sortCriteria}
+          onChange={handleSortChange} // Add onChange handler
           className="p-2 bg-zinc-200 text-zinc-900 rounded border border-zinc-400"
         >
           <option value="date">Sort by Date</option>
@@ -55,50 +46,26 @@ const ShowTask = ({ notes, deleteNote, editNote }) => {
           <option value="year">Sort by Year</option>
         </select>
       </div>
-
-      {/* Display Notes */}
-      <div className="flex-1 overflow-auto">
-        {sortedNotesByOrder.length > 0 ? (
-          <div className="space-y-4">
-            {sortedNotesByOrder.map((note) => (
-              <div
-                key={note.id}
-                className="flex justify-between items-center p-4 bg-zinc-100 rounded-md"
-              >
-                <div>
-                  <p className="text-zinc-700">
-                    <strong>Category:</strong> {note.category}
-                  </p>
-                  <p className="text-zinc-700">
-                    <strong>Date:</strong> {new Date(note.date).toLocaleDateString()}
-                  </p>
-                  <p className="text-zinc-700">
-                    <strong>Description:</strong> {note.description}
-                  </p>
-                </div>
-                <div className="flex space-x-4">
-                  <FaEye
-                    className="text-zinc-500 cursor-pointer"
-                    onClick={() => handleView(note)}
-                  />
-                  <FaPen
-                    className="text-zinc-500 cursor-pointer"
-                    onClick={() => handleEdit(note)}
-                  />
-                  <FaTrash
-                    className="text-zinc-500 cursor-pointer"
-                    onClick={() => handleDelete(note)}
-                  />
-                </div>
+      {notes.length > 0 ? (
+        <div className="space-y-4">
+          {notes.map((note) => (
+            <div key={note.id} className="flex justify-between items-center p-4 bg-zinc-100 rounded-md shadow">
+              <div>
+                <p><strong>Category:</strong> {note.category}</p>
+                <p><strong>Date:</strong> {new Date(note.date).toLocaleDateString()}</p>
+                <p><strong>Description:</strong> {note.description}</p>
               </div>
-            ))}
-          </div>
-        ) : (
-          <p className="text-zinc-600 text-center">No notes available.</p>
-        )}
-      </div>
-
-      {/* View Modal */}
+              <div className="flex space-x-4">
+                <FaEye className="text-blue-500 cursor-pointer" onClick={() => handleView(note)} />
+                <FaPen className="text-yellow-500 cursor-pointer" onClick={() => handleEdit(note)} />
+                <FaTrash className="text-red-500 cursor-pointer" onClick={() => handleDelete(note)} />
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className="text-zinc-600 text-center">No notes available.</p>
+      )}
       {showViewModal && (
         <ViewModal
           show={showViewModal}
@@ -106,31 +73,26 @@ const ShowTask = ({ notes, deleteNote, editNote }) => {
           handleClose={() => setShowViewModal(false)}
         />
       )}
-
-      {/* Edit Modal */}
       {showEditModal && (
         <EditModal
           show={showEditModal}
           note={selectedNote}
           handleClose={() => setShowEditModal(false)}
-          editNote={editNote}
+          editNote={editNote} // Ensure the editNote function is correctly passed
         />
       )}
-
-      {/* Delete Modal */}
       {showDeleteModal && (
         <DeleteModal
           show={showDeleteModal}
-          note={selectedNote}
-          handleClose={() => setShowDeleteModal(false)}
-          deleteNote={() => {
+          handleDelete={() => {
             deleteNote(selectedNote.id);
             setShowDeleteModal(false);
           }}
+          handleClose={() => setShowDeleteModal(false)}
         />
       )}
     </div>
   );
 };
 
-export default ShowTask;
+export default ShowTasks;

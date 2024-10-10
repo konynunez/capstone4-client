@@ -39,12 +39,12 @@ const ModalForm = ({ show, handleClose, addNote }) => {
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"  // Ensure modal is fixed and on top
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-title"
     >
-      <div className="bg-white rounded-lg shadow-lg p-6 w-11/12 sm:w-1/2 lg:w-1/3">
+      <div className="bg-white rounded-lg shadow-lg p-6 w-11/12 sm:w-1/2 lg:w-1/3 relative z-50"> {/* Ensure z-index keeps it above */}
         {/* Modal Header */}
         <div className="flex justify-between items-center mb-4">
           <h2 id="modal-title" className="text-lg font-semibold text-zinc-700">Add Note</h2>

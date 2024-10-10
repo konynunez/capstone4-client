@@ -2,50 +2,41 @@
 import React, { useEffect, useState } from "react";
 import AddTask from "./AddTask";
 import ShowTasks from "./ShowTask";
+import axios from "axios";
 
 const Main = () => {
   const [notes, setNotes] = useState([]);
 
   useEffect(() => {
-    const storedNotes = localStorage.getItem("notes");
-    if (storedNotes) {
-      setNotes(JSON.parse(storedNotes));
-    }
+    const fetchNotes = async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/tasks`);
+        setNotes(response.data);
+      } catch (error) {
+        console.error("Error fetching notes:", error);
+      }
+    };
+    fetchNotes();
   }, []);
 
-  const addNote = (note) => {
-    const updatedNotes = [...notes, note];
-    setNotes(updatedNotes);
-    localStorage.setItem("notes", JSON.stringify(updatedNotes));
-  };
-
-  const editNote = (note) => {
-    const updatedNotes = notes.map((n) => (n.id === note.id ? note : n));
-    setNotes(updatedNotes);
-    localStorage.setItem("notes", JSON.stringify(updatedNotes));
-  };
-
-  const deleteNote = (id) => {
-    const updatedNotes = notes.filter((n) => n.id !== id);
-    setNotes(updatedNotes);
-    localStorage.setItem("notes", JSON.stringify(updatedNotes));
+  const deleteNote = async (id) => {
+    try {
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_BASE_URL}/tasks/${id}`);
+      setNotes((prevNotes) => prevNotes.filter((n) => n.id !== id));
+    } catch (error) {
+      console.error("Error deleting note:", error);
+    }
   };
 
   return (
-    <div className="container mx-auto flex justify-center items-center min-h-screen">
-      {/* Outer Flexbox container to center the content */}
+    <div className="container mx-auto min-h-screen flex justify-center items-center">
       <div className="flex w-full max-w-5xl h-auto items-stretch relative">
-        {/* Vertical line dividing the sections */}
-        <div className="absolute inset-y-0 left-1/2 w-[2px] bg-gray-500"></div>
-
-        {/* AddTask section */}
-        <div className="w-1/2 p-6 bg-white shadow-md rounded-lg flex flex-col">
-          <AddTask notes={notes} addNote={addNote} />
+        <div className="w-1/2 p-6 bg-white shadow-lg rounded-lg flex flex-col">
+          <AddTask notes={notes} setNotes={setNotes} />
         </div>
-
-        {/* ShowTask section */}
-        <div className="w-1/2 p-6 bg-white shadow-md rounded-lg flex flex-col">
-          <ShowTasks notes={notes} deleteNote={deleteNote} editNote={editNote} />
+        <div className="absolute inset-y-0 left-1/2 w-[4px] bg-gray-500"></div>
+        <div className="w-1/2 p-6 bg-white shadow-lg rounded-lg flex flex-col">
+          <ShowTasks notes={notes} deleteNote={deleteNote} />
         </div>
       </div>
     </div>
