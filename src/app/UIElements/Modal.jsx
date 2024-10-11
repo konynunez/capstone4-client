@@ -27,6 +27,7 @@ const ModalForm = ({ show, handleClose, addNote }) => {
 
     handleClose();  
   };
+
   if (!show) return null;
 
   return (
@@ -36,7 +37,7 @@ const ModalForm = ({ show, handleClose, addNote }) => {
       aria-modal="true"
       aria-labelledby="modal-title"
     >
-      <div className="bg-white rounded-lg shadow-lg p-6 w-11/12 sm:w-1/2 lg:w-1/3">
+      <div className="bg-white rounded-lg shadow-lg p-6 w-11/12 sm:w-1/2 lg:w-1/3 max-h-[80vh] overflow-y-auto">
         {/* Modal Header */}
         <div className="flex justify-between items-center mb-4">
           <h2 id="modal-title" className="text-lg font-semibold text-zinc-700">Add Note</h2>
@@ -51,18 +52,19 @@ const ModalForm = ({ show, handleClose, addNote }) => {
 
         {/* Error Message */}
         {error && (
-          <div className="mb-4 text-red-600 text-sm">
+          <div className="mb-4 text-red-600 text-sm" aria-live="assertive">
             {error}
           </div>
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} aria-describedby={error && "error-message"}>
           <div>
-            <label className="block mb-2 text-sm font-medium text-zinc-700">Category</label>
+            <label htmlFor="category" className="block mb-2 text-sm font-medium text-zinc-700">Category</label>
             <input
               type="text"
               name="category"
+              id="category"
               value={formValues.category}
               onChange={handleChange}
               className="w-full p-2 border border-zinc-300 rounded mb-4 text-zinc-700 focus:outline-none focus:ring-2 focus:ring-zinc-400"
@@ -71,10 +73,11 @@ const ModalForm = ({ show, handleClose, addNote }) => {
           </div>
 
           <div>
-            <label className="block mb-2 text-sm font-medium text-zinc-700">Date</label>
+            <label htmlFor="date" className="block mb-2 text-sm font-medium text-zinc-700">Date</label>
             <input
               type="date"
               name="date"
+              id="date"
               value={formValues.date}
               onChange={handleChange}
               className="w-full p-2 border border-zinc-300 rounded mb-4 text-zinc-700 focus:outline-none focus:ring-2 focus:ring-zinc-400"
@@ -83,9 +86,10 @@ const ModalForm = ({ show, handleClose, addNote }) => {
           </div>
 
           <div>
-            <label className="block mb-2 text-sm font-medium text-zinc-700">Description</label>
+            <label htmlFor="description" className="block mb-2 text-sm font-medium text-zinc-700">Description</label>
             <textarea
               name="description"
+              id="description"
               value={formValues.description}
               onChange={handleChange}
               rows="4"

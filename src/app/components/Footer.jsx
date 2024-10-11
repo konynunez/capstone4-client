@@ -26,7 +26,7 @@ const Footer = () => {
         </div>
 
         {/* Links Section */}
-        <div className="flex flex-wrap justify-center mt-3 sm:mt-0">
+        <div className="flex flex-wrap justify-center mt-3 sm:mt-0 space-x-3 sm:space-x-6">
           <Link href="/" className="mx-2 text-white hover:text-blue-500 flex items-center">
             <FaHome className="mr-2" /> Home
           </Link>
@@ -38,8 +38,8 @@ const Footer = () => {
           </Link>
         </div>
 
-        {/* Social Icons */}
-        <span className="inline-flex mt-4 sm:mt-0 justify-center space-x-3">
+        {/* Social Icons Section */}
+        <span className="inline-flex mt-4 sm:mt-0 justify-center space-x-3 sm:space-x-5">
           <a href="https://facebook.com" className="text-blue-600 dark:text-blue-600 hover:text-blue-800">
             <FaFacebook className="w-5 h-5" />
           </a>
@@ -52,7 +52,6 @@ const Footer = () => {
           <a href="https://linkedin.com" className="text-blue-700 dark:text-blue-700 hover:text-blue-900">
             <FaLinkedin className="w-5 h-5" />
           </a>
-          {/* GitHub Link */}
           <a href="https://github.com" className="text-gray-500 dark:text-gray-500 hover:text-gray-700">
             <FaGithub className="w-5 h-5" />
           </a>
