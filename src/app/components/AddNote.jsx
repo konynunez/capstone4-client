@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FaPlusCircle } from "react-icons/fa";
 import ModalForm from "../UIElements/ModalForm";
 import Buttons from "../UIElements/Buttons";
@@ -10,14 +10,6 @@ const AddNote = ({ notes, setNotes }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [currentNote, setCurrentNote] = useState(null);
   const [loading, setLoading] = useState(false); 
-
-  useEffect(() => {
-  
-    const cachedNotes = localStorage.getItem("notes");
-    if (cachedNotes) {
-      setNotes(JSON.parse(cachedNotes));
-    }
-  }, [setNotes]);
 
   const handleShowModal = (note = null) => {
     setIsEditing(!!note);
@@ -35,9 +27,6 @@ const AddNote = ({ notes, setNotes }) => {
       setLoading(true); 
       const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/notes`);
       setNotes(response.data);
-
-      // Cache the notes in localStorage
-      localStorage.setItem("notes", JSON.stringify(response.data));
     } catch (error) {
       console.error("Error fetching notes:", error);
     } finally {
@@ -49,8 +38,6 @@ const AddNote = ({ notes, setNotes }) => {
     try {
       setLoading(true); 
       await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/notes`, note);
-
-     
       await fetchNotes();
       handleHideModal(); 
     } catch (error) {
@@ -64,8 +51,6 @@ const AddNote = ({ notes, setNotes }) => {
     try {
       setLoading(true); 
       await axios.put(`${process.env.NEXT_PUBLIC_API_BASE_URL}/notes/${note.id}`, note);
-      
-     
       await fetchNotes();
       handleHideModal(); 
     } catch (error) {
